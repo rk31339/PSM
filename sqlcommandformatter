@@ -1,0 +1,51 @@
+https://www.programcreek.com/java-api-examples/?code=nailtonvieira/pswot-cloud-java-spring-webapp/pswot-cloud-java-spring-webapp-master/src/main/java/br/com/semanticwot/cd/infra/RemoteShell.java#
+
+SQL SCript runner
+https://pastebin.com/sb4bMbVv
+https://pastebin.com/f10584951
+https://github.com/BenoitDuffez/ScriptRunner (https://github.com/BenoitDuffez/ScriptRunner/blob/master/ScriptRunner.java)
+
+1)https://stackoverflow.com/questions/1497569/how-to-execute-sql-script-file-using-jdbc
+
+2) 
+Another option, this DOESN'T support comments, very useful with AmaterasERD DDL export for Apache Derby:
+public void executeSqlScript(Connection conn, File inputFile) {
+
+    // Delimiter
+    String delimiter = ";";
+
+    // Create scanner
+    Scanner scanner;
+    try {
+        scanner = new Scanner(inputFile).useDelimiter(delimiter);
+    } catch (FileNotFoundException e1) {
+        e1.printStackTrace();
+        return;
+    }
+
+    // Loop through the SQL file statements 
+    Statement currentStatement = null;
+    while(scanner.hasNext()) {
+
+        // Get statement 
+        String rawStatement = scanner.next() + delimiter;
+        try {
+            // Execute statement
+            currentStatement = conn.createStatement();
+            currentStatement.execute(rawStatement);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Release resources
+            if (currentStatement != null) {
+                try {
+                    currentStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            currentStatement = null;
+        }
+    }
+scanner.close();
+}
