@@ -49,3 +49,7 @@ public void executeSqlScript(Connection conn, File inputFile) {
     }
 scanner.close();
 }
+---------------------
+File upload Rest Controller
+
+https://www.callicoder.com/spring-boot-file-upload-download-jpa-hibernate-mysql-database-example/
